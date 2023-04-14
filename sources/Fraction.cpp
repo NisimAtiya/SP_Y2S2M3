@@ -32,7 +32,7 @@ int Fraction::findGCD(int up, int down) {
         min = down;
     }
     int temp=1;
-    for(int i = 2; i < min; ++i) {
+    for(int i = 2; i <= min; ++i) {
         if( (up % i == 0) && (down % i == 0) ){
             temp = i;
         }

@@ -3,6 +3,10 @@
 //
 
 #include "Fraction.hpp"
+#include <string>
+using namespace std;
+
+
 
 Fraction::Fraction(int up, int donw) {
     this->up_=up;
@@ -20,7 +24,7 @@ int Fraction::getDown() const {
     return this->down_;
 }
 
-void Fraction::reduce(Fraction) {
+void Fraction::reduce() {
     int gcd = findGCD(this->up_, this->down_);
     this->up_ = this->up_ / gcd;
     this->down_= this->down_ / gcd;
@@ -40,39 +44,43 @@ int Fraction::findGCD(int up, int down) {
     return temp;
 }
 
-Fraction Fraction::operator+(const Fraction &) const {
+Fraction Fraction::operator+(const Fraction &other) const {
     return Fraction();
 }
 
-Fraction Fraction::operator-(const Fraction &) const {
+Fraction Fraction::operator-(const Fraction &other) const {
     return Fraction();
 }
 
-Fraction Fraction::operator*(const Fraction &) const {
+Fraction Fraction::operator*(const Fraction &other) const {
+    int temp_up = this->up_*other.getUp();
+    int temp_down =  this->down_*other.getDown();
+    Fraction temp(temp_up,temp_down);
+    temp.reduce();
+    return temp;
+}
+
+Fraction Fraction::operator/(const Fraction &other) const {
     return Fraction();
 }
 
-Fraction Fraction::operator/(const Fraction &) const {
-    return Fraction();
-}
-
-bool Fraction::operator==(const Fraction &) const {
+bool Fraction::operator==(const Fraction &other) const {
     return false;
 }
 
-bool Fraction::operator>(const Fraction &) const {
+bool Fraction::operator>(const Fraction &other) const {
     return false;
 }
 
-bool Fraction::operator<(const Fraction &) const {
+bool Fraction::operator<(const Fraction &other) const {
     return false;
 }
 
-bool Fraction::operator>=(const Fraction &) const {
+bool Fraction::operator>=(const Fraction &other) const {
     return false;
 }
 
-bool Fraction::operator<=(const Fraction &) const {
+bool Fraction::operator<=(const Fraction &other) const {
     return false;
 }
 
@@ -84,5 +92,6 @@ Fraction Fraction::operator--() {
     return Fraction();
 }
 
-
-
+string Fraction::toString() {
+    return to_string(this->up_) + "/" + to_string(this->down_);
+}

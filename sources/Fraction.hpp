@@ -6,12 +6,14 @@
 #define SP_Y2S2M3_FRACTION_H
 
 namespace ariel{}
+#include <string.h>
+using namespace std;
 
 class Fraction {
     private:
         int up_;
         int down_;
-        void reduce(Fraction);
+        void reduce();
         int findGCD(int, int);
         
 
@@ -32,6 +34,7 @@ class Fraction {
     bool operator<=(const Fraction&) const;
     Fraction operator++() ;
     Fraction operator--() ;
+    string toString();
 
 
 };

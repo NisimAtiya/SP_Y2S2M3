@@ -45,11 +45,19 @@ int Fraction::findGCD(int up, int down) {
 }
 
 Fraction Fraction::operator+(const Fraction &other) const {
-    return Fraction();
+    int temp_up = this->up_*other.getDown()+other.getUp()* this->down_;
+    int temp_down = this->down_*other.getDown();
+    Fraction temp(temp_up,temp_down);
+    temp.reduce();
+    return temp;
 }
 
 Fraction Fraction::operator-(const Fraction &other) const {
-    return Fraction();
+    int temp_up = this->up_*other.getDown()-other.getUp()* this->down_;
+    int temp_down = this->down_*other.getDown();
+    Fraction temp(temp_up,temp_down);
+    temp.reduce();
+    return temp;
 }
 
 Fraction Fraction::operator*(const Fraction &other) const {
@@ -61,27 +69,43 @@ Fraction Fraction::operator*(const Fraction &other) const {
 }
 
 Fraction Fraction::operator/(const Fraction &other) const {
-    return Fraction();
+    int temp_up = this->up_*other.getDown();
+    int temp_down = this->down_*other.up_;
+    Fraction temp(temp_up,temp_down);
+    temp.reduce();
+    return temp;
+
 }
 
 bool Fraction::operator==(const Fraction &other) const {
-    return false;
+    int temp1 = this->up_*other.getDown();
+    int temp2 = this->down_*other.up_;
+    return temp1 == temp2;
+
 }
 
 bool Fraction::operator>(const Fraction &other) const {
-    return false;
+    int temp1 = this->up_*other.getDown();
+    int temp2 = this->down_*other.up_;
+    return temp1 > temp2;
 }
 
 bool Fraction::operator<(const Fraction &other) const {
-    return false;
+    int temp1 = this->up_*other.getDown();
+    int temp2 = this->down_*other.up_;
+    return temp1 < temp2;
 }
 
 bool Fraction::operator>=(const Fraction &other) const {
-    return false;
+    int temp1 = this->up_*other.getDown();
+    int temp2 = this->down_*other.up_;
+    return ((temp1 == temp2) || (temp1>temp2));
 }
 
 bool Fraction::operator<=(const Fraction &other) const {
-    return false;
+    int temp1 = this->up_*other.getDown();
+    int temp2 = this->down_*other.up_;
+    return ((temp1 == temp2) || (temp1<temp2));
 }
 
 Fraction Fraction::operator++() {
@@ -95,3 +119,7 @@ Fraction Fraction::operator--() {
 string Fraction::toString() {
     return to_string(this->up_) + "/" + to_string(this->down_);
 }
+ostream& operator<< (ostream& , const Fraction& ){
+
+}
+

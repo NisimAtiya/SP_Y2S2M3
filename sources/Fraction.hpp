@@ -6,20 +6,19 @@
 #define SP_Y2S2M3_FRACTION_H
 
 namespace ariel{}
-#include <string.h>
+#include <string>
 using namespace std;
 
 class Fraction {
-    private:
-        int up_;
-        int down_;
-        void reduce();
-        int findGCD(int, int);
-        
-
-
-    public:
+private:
+    int up_;
+    int down_;
+    int findGCD(int, int);
     Fraction();
+    void reduce();
+
+
+public:
     Fraction(int,int);
     int getUp() const;
     int getDown() const;
@@ -34,7 +33,9 @@ class Fraction {
     bool operator<=(const Fraction&) const;
     Fraction operator++() ;
     Fraction operator--() ;
+    friend ostream& operator<< (ostream& output, const Fraction& other);
     string toString();
+    Fraction operator*(const Fraction& f, double num);
 
 
 };

@@ -50,6 +50,7 @@ int Fraction::findGCD(int up, int down) {
     }
     return temp;
 }
+//----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator+(const Fraction &other) const {
     int temp_up = this->up_*other.getDown()+other.getUp()* this->down_;
@@ -67,6 +68,7 @@ Fraction Fraction::operator+(float other) const {
 Fraction operator+(float fother, const Fraction & other) {
     return other.operator+(fother);
 }
+//----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator-(const Fraction &other) const {
     int temp_up = this->up_*other.getDown()-other.getUp()* this->down_;
@@ -84,6 +86,7 @@ Fraction Fraction::operator-(float other) const {
 Fraction operator-(float fother, const Fraction & other) {
     return other.operator-(fother);
 }
+//----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator*(const Fraction &other) const {
     int temp_up = this->up_*other.getUp();
@@ -102,6 +105,8 @@ Fraction operator*(float fother, const Fraction & other) {
     return other.operator*(fother);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 Fraction Fraction::operator/(const Fraction &other) const {
     int temp_up = this->up_*other.getDown();
     int temp_down = this->down_*other.up_;
@@ -118,81 +123,71 @@ Fraction Fraction::operator/(float other) const {
 Fraction operator/(float fother, const Fraction & other) {
     return other.operator/(fother);
 }
-
+//----------------------------------------------------------------------------------------------------------------------
 bool Fraction::operator==(const Fraction &other) const {
     int temp1 = this->up_*other.getDown();
     int temp2 = this->down_*other.up_;
     return temp1 == temp2;
 }
-bool Fraction::operator==(float other) const {
-    int num = int(other)*1000+(int)(other * 1000) % 1000;
-    int temp1 = this->up_*1000;
-    int temp2 =  num* this->down_;
-    return temp1 == temp2;
-}
-
-bool operator==(float fother, const Fraction &other) {
-    return other==fother;
-}
-
 bool Fraction::operator>(const Fraction &other) const {
     int temp1 = this->up_*other.getDown();
     int temp2 = this->down_*other.up_;
     return temp1 > temp2;
 }
-bool Fraction::operator>(float other) const {
-    int num = int(other)*1000+(int)(other * 1000) % 1000;
-    int temp1 = this->up_*1000;
-    int temp2 =  num* this->down_;
-    return temp1 > temp2;
-}
-
-bool operator>(float fother, const Fraction &other) {
-    return other>fother;
-}
-
 bool Fraction::operator<(const Fraction &other) const {
     int temp1 = this->up_*other.getDown();
     int temp2 = this->down_*other.up_;
     return temp1 < temp2;
 }
-bool Fraction::operator<(float other) const {
-    int num = int(other)*1000+(int)(other * 1000) % 1000;
-    int temp1 = this->up_*1000;
-    int temp2 =  num* this->down_;
-    return temp1 < temp2;
-}
-
-bool operator<(float fother, const Fraction &other) {
-    return other<fother;
-}
-
 bool Fraction::operator>=(const Fraction &other) const {
-    int temp1 = this->up_*other.getDown();
-    int temp2 = this->down_*other.up_;
-    return ((temp1 == temp2) || (temp1>temp2));
+    return ( (this->operator>(other)) || (this->operator==(other)) );
+}
+bool Fraction::operator<=(const Fraction &other) const {
+    return ( (this->operator<(other)) || (this->operator==(other)) );
+}
+//----------------------------------------------------------------------------------------------------------------------
+bool Fraction::operator==(float other) const {
+    Fraction fother(other);
+    return this->operator==(fother);
+}
+bool Fraction::operator>(float other) const {
+    Fraction fother(other);
+    return this->operator>(fother);
+}
+bool Fraction::operator<(float other) const {
+    Fraction fother(other);
+    return this->operator<(fother);
+}
+bool Fraction::operator>=(float other) const {
+    Fraction fother(other);
+    return this->operator>=(fother);
+}
+bool Fraction::operator<=(float other) const {
+    Fraction fother(other);
+    return this->operator<=(fother);
+}
+//----------------------------------------------------------------------------------------------------------------------
+bool operator==(float fother, const Fraction &other) {
+    return other.operator==(fother);
+}
+bool operator>(float fother, const Fraction &other) {
+    return other.operator<(fother);
+
+}
+bool operator<(float fother, const Fraction &other) {
+    return other.operator>(fother);
 }
 bool operator>=(float fother, const Fraction &other) {
-    return ((fother>other) || (fother==other));
+    return other.operator<=(fother);
+
 }
 
-bool Fraction::operator>=(float other) const {
-    return other>=Fraction(this->up_, this->down_);
-}
-
-bool Fraction::operator<=(const Fraction &other) const {
-    int temp1 = this->up_*other.getDown();
-    int temp2 = this->down_*other.up_;
-    return ((temp1 == temp2) || (temp1<temp2));
-}
 bool operator<=(float fother, const Fraction &other) {
-    return ((fother>other) || (fother==other));
+    return other.operator>=(fother);
+
 }
 
-bool Fraction::operator<=(float other) const {
-    return other>=Fraction(this->up_, this->down_);
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 Fraction Fraction::operator++(int tenp) {
     return Fraction();
 }

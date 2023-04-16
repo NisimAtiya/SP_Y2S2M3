@@ -20,21 +20,58 @@ private:
 
 public:
     Fraction(int,int);
+    Fraction(float);
     int getUp() const;
     int getDown() const;
+    string toString();
+
+
     Fraction operator+(const Fraction&) const;
+    Fraction operator+(float)const;
+    friend Fraction operator+(float ,const Fraction&);
+
     Fraction operator-(const Fraction&) const;
+    Fraction operator-(float)const;
+    friend Fraction operator-(float ,const Fraction&);
+
     Fraction operator*(const Fraction&) const;
+    Fraction operator*(float)const;
+    friend Fraction operator*(float ,const Fraction&);
+
     Fraction operator/(const Fraction&) const;
+    Fraction operator/(float)const;
+    friend Fraction operator/(float ,const Fraction&);
+
     bool operator==(const Fraction&) const;
+    bool operator==(float)const;
+    friend bool operator==(float ,const Fraction&);
+
     bool operator>(const Fraction&) const;
+    bool operator>(float)const;
+    friend bool operator>(float ,const Fraction&);
+
     bool operator<(const Fraction&) const;
+    bool operator<(float)const;
+    friend bool operator<(float ,const Fraction&);
+
     bool operator>=(const Fraction&) const;
+    bool operator>=(float)const;
+    friend bool operator>=(float ,const Fraction&);
+
     bool operator<=(const Fraction&) const;
+    bool operator<=(float)const;
+    friend bool operator<=(float ,const Fraction&);
+
     Fraction operator++(int) ;
     Fraction operator--(int) ;
+
     friend ostream& operator<< (ostream& output, const Fraction& other);
-    string toString();
+
+
+
+
+
+
 
 
 };

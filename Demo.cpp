@@ -27,7 +27,7 @@ int main() {
     cout << "a+2.421" << a+2.421 << endl;
     Fraction c = a+b-1;
     cout << c++ << endl;
-    cout << --c << endl;
+    //cout << --c << endl;
 
     cout << "c >=b ? : " << (c >= b) << endl;
     if (a > 1.1) cout << " a is bigger than 1.1" << endl;

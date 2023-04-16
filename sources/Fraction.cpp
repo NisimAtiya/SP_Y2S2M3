@@ -4,6 +4,7 @@
 
 #include "Fraction.hpp"
 #include <string>
+#include <ostream>
 using namespace std;
 
 
@@ -108,18 +109,21 @@ bool Fraction::operator<=(const Fraction &other) const {
     return ((temp1 == temp2) || (temp1<temp2));
 }
 
-Fraction Fraction::operator++() {
+Fraction Fraction::operator++(int tenp) {
     return Fraction();
 }
 
-Fraction Fraction::operator--() {
+Fraction Fraction::operator--(int temp) {
     return Fraction();
 }
 
 string Fraction::toString() {
     return to_string(this->up_) + "/" + to_string(this->down_);
 }
-ostream& operator<< (ostream& , const Fraction& ){
-
+ostream& operator<<(ostream& output, const Fraction& other) {
+    output << other.getUp() << "/" << other.getDown();
+    return output;
 }
+
+
 

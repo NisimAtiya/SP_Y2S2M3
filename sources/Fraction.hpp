@@ -31,11 +31,10 @@ public:
     bool operator<(const Fraction&) const;
     bool operator>=(const Fraction&) const;
     bool operator<=(const Fraction&) const;
-    Fraction operator++() ;
-    Fraction operator--() ;
+    Fraction operator++(int) ;
+    Fraction operator--(int) ;
     friend ostream& operator<< (ostream& output, const Fraction& other);
     string toString();
-    Fraction operator*(const Fraction& f, double num);
 
 
 };

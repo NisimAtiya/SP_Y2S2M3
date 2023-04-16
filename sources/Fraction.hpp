@@ -34,13 +34,6 @@ class Fraction {
     Fraction operator--() ;
 
 
-
-
-
-
-
-
-
 };
 
 

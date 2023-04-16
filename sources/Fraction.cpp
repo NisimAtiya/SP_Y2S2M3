@@ -39,3 +39,50 @@ int Fraction::findGCD(int up, int down) {
     }
     return temp;
 }
+
+Fraction Fraction::operator+(const Fraction &) const {
+    return Fraction();
+}
+
+Fraction Fraction::operator-(const Fraction &) const {
+    return Fraction();
+}
+
+Fraction Fraction::operator*(const Fraction &) const {
+    return Fraction();
+}
+
+Fraction Fraction::operator/(const Fraction &) const {
+    return Fraction();
+}
+
+bool Fraction::operator==(const Fraction &) const {
+    return false;
+}
+
+bool Fraction::operator>(const Fraction &) const {
+    return false;
+}
+
+bool Fraction::operator<(const Fraction &) const {
+    return false;
+}
+
+bool Fraction::operator>=(const Fraction &) const {
+    return false;
+}
+
+bool Fraction::operator<=(const Fraction &) const {
+    return false;
+}
+
+Fraction Fraction::operator++() {
+    return Fraction();
+}
+
+Fraction Fraction::operator--() {
+    return Fraction();
+}
+
+
+

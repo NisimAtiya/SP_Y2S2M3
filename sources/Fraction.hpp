@@ -65,7 +65,7 @@ public:
     Fraction operator++(int) ;
     Fraction operator--(int) ;
 
-    friend ostream& operator<< (ostream& output, const Fraction& other);
+    friend ostream& operator<< (ostream& , const Fraction& );
 
 
 

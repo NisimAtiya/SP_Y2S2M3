@@ -10,6 +10,9 @@ using namespace std;
 
 
 Fraction::Fraction(int up, int donw) {
+    if (donw == 0) {
+        throw invalid_argument("Denominator cannot be zero");
+    }
     this->up_=up;
     this->down_=donw;
 }
@@ -108,6 +111,9 @@ Fraction operator*(float fother, const Fraction & other) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator/(const Fraction &other) const {
+    if (other.getUp() == 0) {
+        throw invalid_argument("Division by zero!!");
+    }
     int temp_up = this->up_*other.getDown();
     int temp_down = this->down_*other.up_;
     Fraction temp(temp_up,temp_down);
@@ -189,11 +195,12 @@ bool operator<=(float fother, const Fraction &other) {
 
 //----------------------------------------------------------------------------------------------------------------------
 Fraction Fraction::operator++(int tenp) {
-    return Fraction();
+
+    return 3;
 }
 
 Fraction Fraction::operator--(int temp) {
-    return Fraction();
+    return 3;
 }
 
 string Fraction::toString() {
@@ -203,4 +210,5 @@ ostream& operator<<(ostream& output, const Fraction& other) {
     output << other.getUp() << "/" << other.getDown();
     return output;
 }
+
 

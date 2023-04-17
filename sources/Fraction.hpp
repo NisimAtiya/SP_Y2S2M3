@@ -62,8 +62,11 @@ public:
     bool operator<=(float)const;
     friend bool operator<=(float ,const Fraction&);
 
-    Fraction operator++(int) ;
-    Fraction operator--(int) ;
+    Fraction operator++(int);
+    Fraction operator++();
+    Fraction operator--(int);
+    Fraction operator--();
+
 
     friend ostream& operator<< (ostream& , const Fraction& );
 

@@ -196,12 +196,22 @@ bool operator<=(float fother, const Fraction &other) {
 //----------------------------------------------------------------------------------------------------------------------
 Fraction Fraction::operator++(int tenp) {
 
-    return 3;
+    return Fraction(0, 0);
+}
+Fraction Fraction::operator++() {
+    return Fraction(0, 0);
 }
 
 Fraction Fraction::operator--(int temp) {
-    return 3;
+    return Fraction(0, 0);
+
 }
+Fraction Fraction::operator--() {
+    return Fraction(0, 0);
+}
+//----------------------------------------------------------------------------------------------------------------------
+
+
 
 string Fraction::toString() {
     return to_string(this->up_) + "/" + to_string(this->down_);

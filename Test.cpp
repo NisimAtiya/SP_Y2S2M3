@@ -70,3 +70,9 @@ TEST_CASE("Reduced fracture reconstruction test"){
     CHECK(a*0.5==0.25);
     CHECK(a/0.5==1);
 }
+TEST_CASE("Tests with errors"){
+    CHECK_THROWS(Fraction (1,0));
+    Fraction b(1,4);
+    CHECK_THROWS(b/0);
+}
+

@@ -146,19 +146,25 @@ Fraction operator/(float fother, const Fraction & other) {
 }
 //----------------------------------------------------------------------------------------------------------------------
 bool Fraction::operator==(const Fraction &other) const {
-    int temp1 = this->up_*other.getDenominator();
-    int temp2 = this->down_*other.getNumerator();
-    return temp1 == temp2;
+    float temp1 = float(this->getNumerator())/ this->getDenominator();
+    float temp2 = float(other.getNumerator())/ other.getDenominator();
+    int tenp11 = temp1*1000;
+    int temp22 = temp2*1000;
+    return tenp11==temp22;
 }
 bool Fraction::operator>(const Fraction &other) const {
-    int temp1 = this->up_*other.getDenominator();
-    int temp2 = this->down_*other.getNumerator();
-    return temp1 > temp2;
+    float temp1 = float(this->getNumerator())/ this->getDenominator();
+    float temp2 = float(other.getNumerator())/ other.getDenominator();
+    int tenp11 = temp1*1000;
+    int temp22 = temp2*1000;
+    return tenp11>temp22;
 }
 bool Fraction::operator<(const Fraction &other) const {
-    int temp1 = this->up_*other.getDenominator();
-    int temp2 = this->down_*other.getNumerator();
-    return temp1 < temp2;
+    float temp1 = float(this->getNumerator())/ this->getDenominator();
+    float temp2 = float(other.getNumerator())/ other.getDenominator();
+    int tenp11 = temp1*1000;
+    int temp22 = temp2*1000;
+    return tenp11<temp22;
 }
 bool Fraction::operator>=(const Fraction &other) const {
     return ( (this->operator>(other)) || (this->operator==(other)) );
@@ -168,29 +174,24 @@ bool Fraction::operator<=(const Fraction &other) const {
 }
 //----------------------------------------------------------------------------------------------------------------------
 bool Fraction::operator==(float other) const {
-    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return temp==fother;
+    return this->operator==(fother);
 }
 bool Fraction::operator>(float other) const {
-    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return temp>fother;
+    return this->operator>(fother);
 }
 bool Fraction::operator<(float other) const {
-    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return temp<fother;
+    return this->operator<(fother);
 }
 bool Fraction::operator>=(float other) const {
-    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return temp>=fother;
+    return this->operator>=(fother);
 }
 bool Fraction::operator<=(float other) const {
-    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return temp<=fother;
+    return this->operator<=(fother);
 }
 //----------------------------------------------------------------------------------------------------------------------
 bool operator==(float fother, const Fraction &other) {

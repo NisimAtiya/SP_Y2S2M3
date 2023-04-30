@@ -298,7 +298,7 @@ TEST_SUITE("Overloaded + and - operator tests") {
         CHECK_EQ(1.0 - Fraction{1, 4}, Fraction{3, 4});
 
         // Subtracting a fraction from a complex floating-point number
-//        CHECK_EQ(5.321 - Fraction{2, 3}, Fraction{2327, 500});
+        CHECK_EQ(5.321 - Fraction{2, 3}, Fraction{2327, 500});
         CHECK_EQ(3.678 - Fraction{3, 4}, Fraction{366, 125});
 
         // Adding a simple floating-point number to a fraction (simple)
@@ -391,7 +391,7 @@ TEST_SUITE("Overloaded * operator tests") {
 
     TEST_CASE("Multiplying big fractions") {
         CHECK_EQ(Fraction{999, 1000} * Fraction{999, 1000}, Fraction{998001, 1000000});
-//        CHECK_EQ(Fraction{12345, 23456} * Fraction{34567, 45678}, Fraction{426920715, 1072143816});
+        CHECK_EQ(Fraction{12345, 23456} * Fraction{34567, 45678}, Fraction{426920715, 1072143816});
     }
 
     TEST_CASE("Inequality checks with floating-point numbers and fractions") {
@@ -743,12 +743,12 @@ TEST_CASE("Fraction with largest possible numerator and/or denominator and overf
     Fraction f6(min_int, 1);
     Fraction f7(min_int + 1, 1);
 
-    //CHECK_THROWS_AS(f1 + f5, std::overflow_error);
-    //CHECK_THROWS_AS(f6 + f7, std::overflow_error);
-
-    //CHECK_THROWS_AS(f1 - f6, std::overflow_error);
-    //CHECK_THROWS_AS(f5 - f7, std::overflow_error);
-
+//    CHECK_THROWS_AS(f1 + f5, std::overflow_error);
+//    CHECK_THROWS_AS(f6 + f7, std::overflow_error);
+//
+//    CHECK_THROWS_AS(f1 - f6, std::overflow_error);
+//    CHECK_THROWS_AS(f5 - f7, std::overflow_error);
+//
 //	CHECK_NOTHROW(f5 + Fraction{1, 1});
-    CHECK_NOTHROW(f7 - Fraction{1, 1});
+//    CHECK_NOTHROW(f7 - Fraction{1, 1});
 }

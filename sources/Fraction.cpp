@@ -5,6 +5,9 @@
 #include "Fraction.hpp"
 #include <string>
 #include <ostream>
+
+#include <istream>
+
 using namespace std;
 
 
@@ -13,16 +16,25 @@ Fraction::Fraction(int up, int donw) {
     if (donw == 0) {
         throw invalid_argument("Denominator cannot be zero");
     }
+    if( (up>0) && (donw<0) ){
+        up*=-1;
+        donw*=-1;
+    }
+    if( (up<0) && (donw<0) ){
+        up*=-1;
+        donw*=-1;
+    }
     this->up_=up;
     this->down_=donw;
 }
 Fraction::Fraction() {
     this->up_=0;
     this->down_=1;
+
 }
 
 Fraction::Fraction(float num) {
-    int up = int(num)*1000+(int)(num * 1000) % 1000;
+    int up = num*1000;
     this->up_=up;
     this->down_=1000;
 }
@@ -88,7 +100,7 @@ Fraction Fraction::operator-(float other) const {
 }
 
 Fraction operator-(float fother, const Fraction & other) {
-    return other.operator-(fother);
+    return -1*other.operator-(fother);
 }
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -113,7 +125,7 @@ Fraction operator*(float fother, const Fraction & other) {
 
 Fraction Fraction::operator/(const Fraction &other) const {
     if (other.getNumerator() == 0) {
-        throw invalid_argument("Division by zero!!");
+        throw runtime_error("Division by zero!!");
     }
     int temp_up = this->up_*other.getDenominator();
     int temp_down = this->down_*other.up_;
@@ -128,22 +140,24 @@ Fraction Fraction::operator/(float other) const {
 }
 
 Fraction operator/(float fother, const Fraction & other) {
-    return other.operator/(fother);
+    Fraction ff(fother);
+    return ff.operator/(other);
+
 }
 //----------------------------------------------------------------------------------------------------------------------
 bool Fraction::operator==(const Fraction &other) const {
     int temp1 = this->up_*other.getDenominator();
-    int temp2 = this->down_*other.up_;
+    int temp2 = this->down_*other.getNumerator();
     return temp1 == temp2;
 }
 bool Fraction::operator>(const Fraction &other) const {
     int temp1 = this->up_*other.getDenominator();
-    int temp2 = this->down_*other.up_;
+    int temp2 = this->down_*other.getNumerator();
     return temp1 > temp2;
 }
 bool Fraction::operator<(const Fraction &other) const {
     int temp1 = this->up_*other.getDenominator();
-    int temp2 = this->down_*other.up_;
+    int temp2 = this->down_*other.getNumerator();
     return temp1 < temp2;
 }
 bool Fraction::operator>=(const Fraction &other) const {
@@ -154,24 +168,29 @@ bool Fraction::operator<=(const Fraction &other) const {
 }
 //----------------------------------------------------------------------------------------------------------------------
 bool Fraction::operator==(float other) const {
+    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return this->operator==(fother);
+    return temp==fother;
 }
 bool Fraction::operator>(float other) const {
+    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return this->operator>(fother);
+    return temp>fother;
 }
 bool Fraction::operator<(float other) const {
+    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return this->operator<(fother);
+    return temp<fother;
 }
 bool Fraction::operator>=(float other) const {
+    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return this->operator>=(fother);
+    return temp>=fother;
 }
 bool Fraction::operator<=(float other) const {
+    Fraction temp(float(this->getNumerator())/ this->getDenominator());
     Fraction fother(other);
-    return this->operator<=(fother);
+    return temp<=fother;
 }
 //----------------------------------------------------------------------------------------------------------------------
 bool operator==(float fother, const Fraction &other) {
@@ -219,11 +238,23 @@ Fraction Fraction::operator--() {
 
 
 string Fraction::toString() {
+
     return to_string(this->up_) + "/" + to_string(this->down_);
 }
 ostream& operator<<(ostream& output, const Fraction& other) {
-    output << other.getNumerator() << "/" << other.getDenominator();
+    Fraction temp(other.getNumerator(), other.getDenominator());
+    temp.reduce();
+    output << temp.getNumerator() << "/" << temp.getDenominator();
     return output;
 }
 
 
+istream &operator>>(istream& is, Fraction& f) {
+    int up;
+    int down=0;
+    is >> up;
+    is >> down;
+    if(down==0) throw runtime_error("Invalid input");
+    f=Fraction(up,down);
+    return is;
+}

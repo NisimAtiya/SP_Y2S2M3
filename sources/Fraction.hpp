@@ -14,13 +14,13 @@ private:
     int up_;
     int down_;
     int findGCD(int, int);
-    Fraction();
     void reduce();
 
 
 public:
     Fraction(int,int);
     Fraction(float);
+    Fraction();
     int getNumerator() const;
     int getDenominator() const;
     string toString();
@@ -69,6 +69,7 @@ public:
 
 
     friend ostream& operator<< (ostream& , const Fraction& );
+    friend istream& operator>>(istream& , Fraction& );
 
 
 

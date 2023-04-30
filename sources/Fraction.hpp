@@ -21,8 +21,8 @@ private:
 public:
     Fraction(int,int);
     Fraction(float);
-    int getUp() const;
-    int getDown() const;
+    int getNumerator() const;
+    int getDenominator() const;
     string toString();
 
 

@@ -26,11 +26,12 @@ Fraction::Fraction(float num) {
     this->up_=up;
     this->down_=1000;
 }
-
-int Fraction::getUp() const {
+//getUp
+int Fraction::getNumerator() const {
     return this->up_;
 }
-int Fraction::getDown() const {
+//getDown
+int Fraction::getDenominator() const {
     return this->down_;
 }
 
@@ -56,8 +57,8 @@ int Fraction::findGCD(int up, int down) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator+(const Fraction &other) const {
-    int temp_up = this->up_*other.getDown()+other.getUp()* this->down_;
-    int temp_down = this->down_*other.getDown();
+    int temp_up = this->up_*other.getDenominator()+other.getNumerator()* this->down_;
+    int temp_down = this->down_*other.getDenominator();
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
@@ -74,8 +75,8 @@ Fraction operator+(float fother, const Fraction & other) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator-(const Fraction &other) const {
-    int temp_up = this->up_*other.getDown()-other.getUp()* this->down_;
-    int temp_down = this->down_*other.getDown();
+    int temp_up = this->up_*other.getDenominator()-other.getNumerator()* this->down_;
+    int temp_down = this->down_*other.getDenominator();
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
@@ -92,8 +93,8 @@ Fraction operator-(float fother, const Fraction & other) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator*(const Fraction &other) const {
-    int temp_up = this->up_*other.getUp();
-    int temp_down =  this->down_*other.getDown();
+    int temp_up = this->up_*other.getNumerator();
+    int temp_down =  this->down_*other.getDenominator();
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
@@ -111,10 +112,10 @@ Fraction operator*(float fother, const Fraction & other) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator/(const Fraction &other) const {
-    if (other.getUp() == 0) {
+    if (other.getNumerator() == 0) {
         throw invalid_argument("Division by zero!!");
     }
-    int temp_up = this->up_*other.getDown();
+    int temp_up = this->up_*other.getDenominator();
     int temp_down = this->down_*other.up_;
     Fraction temp(temp_up,temp_down);
     temp.reduce();
@@ -131,17 +132,17 @@ Fraction operator/(float fother, const Fraction & other) {
 }
 //----------------------------------------------------------------------------------------------------------------------
 bool Fraction::operator==(const Fraction &other) const {
-    int temp1 = this->up_*other.getDown();
+    int temp1 = this->up_*other.getDenominator();
     int temp2 = this->down_*other.up_;
     return temp1 == temp2;
 }
 bool Fraction::operator>(const Fraction &other) const {
-    int temp1 = this->up_*other.getDown();
+    int temp1 = this->up_*other.getDenominator();
     int temp2 = this->down_*other.up_;
     return temp1 > temp2;
 }
 bool Fraction::operator<(const Fraction &other) const {
-    int temp1 = this->up_*other.getDown();
+    int temp1 = this->up_*other.getDenominator();
     int temp2 = this->down_*other.up_;
     return temp1 < temp2;
 }
@@ -195,7 +196,7 @@ bool operator<=(float fother, const Fraction &other) {
 
 //----------------------------------------------------------------------------------------------------------------------
 Fraction Fraction::operator++(int temp) {
-    Fraction copy(this->getUp(), this->getDown());
+    Fraction copy(this->getNumerator(), this->getDenominator());
     this->up_= this->up_+ this->down_;
     return copy;
 }
@@ -205,7 +206,7 @@ Fraction Fraction::operator++() {
 }
 
 Fraction Fraction::operator--(int temp) {
-    Fraction copy(this->getUp(), this->getDown());
+    Fraction copy(this->getNumerator(), this->getDenominator());
     this->up_= this->up_- this->down_;
     return copy;
 }
@@ -221,7 +222,7 @@ string Fraction::toString() {
     return to_string(this->up_) + "/" + to_string(this->down_);
 }
 ostream& operator<<(ostream& output, const Fraction& other) {
-    output << other.getUp() << "/" << other.getDown();
+    output << other.getNumerator() << "/" << other.getDenominator();
     return output;
 }
 

@@ -56,9 +56,9 @@ TEST_CASE("Equality and inequality testing of  and float a fracture"){
 }
 TEST_CASE("Checking the operator ++ and -- before and after"){
     Fraction a(1,2);
-    CHECK(a++==1.5);
-    CHECK(++a==1.5);
-    CHECK(a--==0.5);
+    CHECK(a++==0.5);
+    CHECK(++a==2.5);
+    CHECK(a--==2.5);
     CHECK(--a==0.5);
 
 }

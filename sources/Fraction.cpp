@@ -194,20 +194,24 @@ bool operator<=(float fother, const Fraction &other) {
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Fraction Fraction::operator++(int tenp) {
-
-    return Fraction(1, 1);
+Fraction Fraction::operator++(int temp) {
+    Fraction copy(this->getUp(), this->getDown());
+    this->up_= this->up_+ this->down_;
+    return copy;
 }
 Fraction Fraction::operator++() {
-    return Fraction(1, 1);
+    this->up_= this->up_+ this->down_;
+    return Fraction(this->up_, this->down_);
 }
 
 Fraction Fraction::operator--(int temp) {
-    return Fraction(1, 1);
-
+    Fraction copy(this->getUp(), this->getDown());
+    this->up_= this->up_- this->down_;
+    return copy;
 }
 Fraction Fraction::operator--() {
-    return Fraction(1, 1);
+    this->up_= this->up_- this->down_;
+    return Fraction(this->up_, this->down_);
 }
 //----------------------------------------------------------------------------------------------------------------------
 

@@ -1,11 +1,13 @@
-//
-// Created by Nisim Atiya on 14/04/2023.
-//
+// //
+// // Created by Nisim Atiya on 14/04/2023.
+// //
+
 
 #include "Fraction.hpp"
 #include <string>
 #include <ostream>
-#include <limits>
+#include <math.h>
+
 #include <istream>
 
 using namespace std;
@@ -16,13 +18,13 @@ Fraction::Fraction(int up, int donw) {
     if (donw == 0) {
         throw invalid_argument("Denominator cannot be zero");
     }
-    if( (up>0) && (donw<0) ){
-        up*=-1;
-        donw*=-1;
-    }
-    if( (up<0) && (donw<0) ){
-        up*=-1;
-        donw*=-1;
+    // if( (up>0) && (donw<0) ){
+    //     up*=-1;
+    //     donw*=-1;
+    // }
+    if( donw<0 ){
+        up = -up;
+        donw = -donw;
     }
     this->up_=up;
     this->down_=donw;
@@ -38,7 +40,6 @@ Fraction::Fraction(float num) {
     int up = num*1000;
     this->up_=up;
     this->down_=1000;
-    this->reduce();
 }
 //getUp
 int Fraction::getNumerator() const {
@@ -56,36 +57,24 @@ void Fraction::reduce() {
 }
 
 int Fraction::findGCD(int up, int down) {
-    int min = up;
-    if(down>up){
-        min = down;
-    }
-    int temp=1;
-    for(int i = 2; i <= min; ++i) {
-        if( (up % i == 0) && (down % i == 0) ){
-            temp = i;
-        }
-    }
-    return temp;
+    if(down == 0) return up;
+    return findGCD(down, up % down);
 }
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator+(const Fraction &other) const {
-    int temp_up;
-    int temp_down;
-    if(__builtin_add_overflow(this->up_*other.getDenominator(),other.getNumerator()* this->down_,&temp_up)){
-        throw overflow_error("overflow error");
-
+    if ((this->up_ > 0 && other.getNumerator() > std::numeric_limits<int>::max() - this->up_) ||
+        (this->up_ < 0 && other.getNumerator() < std::numeric_limits<int>::min() - this->up_)) {
+        throw std::overflow_error("Overflow detected in addition");
     }
 
-    if(__builtin_mul_overflow(this->down_,other.getDenominator(),&temp_down)){
-        throw overflow_error("overflow error");
-
-    }
+    int temp_up = this->up_*other.getDenominator()+other.getNumerator()* this->down_;
+    int temp_down = this->down_*other.getDenominator();
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
 }
+
 Fraction Fraction::operator+(float other) const {
     Fraction fother(other);
     return this->operator+(fother);
@@ -99,21 +88,17 @@ Fraction operator+(float fother, const Fraction & other) {
 
 Fraction Fraction::operator-(const Fraction &other) const {
 
-    int temp_up;
-    int temp_down;
-    if(__builtin_sub_overflow(this->up_*other.getDenominator(),other.getNumerator()* this->down_,&temp_up)){
-        throw overflow_error("overflow error");
-
+    long long num = static_cast<long long>(this->up_) * other.getDenominator() -
+                    static_cast<long long>(other.getNumerator()) * this->down_;
+    if (num < std::numeric_limits<int>::min() || num > std::numeric_limits<int>::max()) {
+        throw std::overflow_error("Overflow detected in subtraction");
     }
 
-    if(__builtin_mul_overflow(this->down_,other.getDenominator(),&temp_down)){
-        throw overflow_error("overflow error");
-
-    }
+    int temp_up = this->up_*other.getDenominator()-other.getNumerator()* this->down_;
+    int temp_down = this->down_*other.getDenominator();
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
-
 }
 Fraction Fraction::operator-(float other) const {
     Fraction fother(other);
@@ -127,19 +112,13 @@ Fraction operator-(float fother, const Fraction & other) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator*(const Fraction &other) const {
-    int temp_up;
-    int temp_down;
-    if(__builtin_mul_overflow(this->up_,other.getNumerator(),&temp_up)){
-        throw overflow_error("overflow error");
 
+    int temp_up, temp_down;
+    if (__builtin_mul_overflow(this->up_, other.getNumerator(), &temp_up) ||
+        __builtin_mul_overflow(this->down_, other.getDenominator(), &temp_down)) {
+        throw std::overflow_error("Overflow detected in multiplication");
     }
-    if(__builtin_mul_overflow(this->down_,other.getDenominator(),&temp_down)){
-        throw overflow_error("overflow error");
-
-    }
-
-
-    Fraction temp(temp_up,temp_down);
+    Fraction temp(temp_up, temp_down);
     temp.reduce();
     return temp;
 }
@@ -157,22 +136,19 @@ Fraction operator*(float fother, const Fraction & other) {
 
 Fraction Fraction::operator/(const Fraction &other) const {
     if (other.getNumerator() == 0) {
-        throw runtime_error("Division by zero!!");
+        throw std::runtime_error("Division by zero");
     }
-    int temp_up;
-    int temp_down;
-    if(__builtin_mul_overflow(this->up_,other.getDenominator(),&temp_up)){
-        throw overflow_error("overflow error");
+    int temp_up, temp_down;
+    if (__builtin_mul_overflow(this->up_, other.getDenominator(), &temp_up) ||
+        __builtin_mul_overflow(this->down_, other.getNumerator(), &temp_down)) {
+        throw std::overflow_error("Overflow detected in division");
+    }
+    Fraction temp(temp_up, temp_down);
 
-    }
-    if(__builtin_mul_overflow(this->down_,other.up_,&temp_down)){
-        throw overflow_error("overflow error");
-
-    }
-    Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
 }
+
 Fraction Fraction::operator/(float other) const {
     Fraction fother(other);
     return this->operator/(fother);
@@ -282,11 +258,15 @@ string Fraction::toString() {
 
     return to_string(this->up_) + "/" + to_string(this->down_);
 }
-ostream& operator<<(ostream& output, const Fraction& other) {
-    Fraction temp(other.getNumerator(), other.getDenominator());
-    temp.reduce();
-    output << temp.getNumerator() << "/" << temp.getDenominator();
-    return output;
+std::ostream& operator<<(std::ostream& os, const Fraction& f) {
+    int num = f.up_;
+    int den = f.down_;
+    if (den < 0) {
+        num *= -1;
+        den *= -1;
+    }
+    os << num << "/" << den;
+    return os;
 }
 
 

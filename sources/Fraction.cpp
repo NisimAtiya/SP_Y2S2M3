@@ -5,7 +5,7 @@
 #include "Fraction.hpp"
 #include <string>
 #include <ostream>
-
+#include <limits>
 #include <istream>
 
 using namespace std;
@@ -26,6 +26,7 @@ Fraction::Fraction(int up, int donw) {
     }
     this->up_=up;
     this->down_=donw;
+    this->reduce();
 }
 Fraction::Fraction() {
     this->up_=0;
@@ -37,6 +38,7 @@ Fraction::Fraction(float num) {
     int up = num*1000;
     this->up_=up;
     this->down_=1000;
+    this->reduce();
 }
 //getUp
 int Fraction::getNumerator() const {
@@ -69,8 +71,17 @@ int Fraction::findGCD(int up, int down) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator+(const Fraction &other) const {
-    int temp_up = this->up_*other.getDenominator()+other.getNumerator()* this->down_;
-    int temp_down = this->down_*other.getDenominator();
+    int temp_up;
+    int temp_down;
+    if(__builtin_add_overflow(this->up_*other.getDenominator(),other.getNumerator()* this->down_,&temp_up)){
+        throw overflow_error("overflow error");
+
+    }
+
+    if(__builtin_mul_overflow(this->down_,other.getDenominator(),&temp_down)){
+        throw overflow_error("overflow error");
+
+    }
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
@@ -87,11 +98,22 @@ Fraction operator+(float fother, const Fraction & other) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator-(const Fraction &other) const {
-    int temp_up = this->up_*other.getDenominator()-other.getNumerator()* this->down_;
-    int temp_down = this->down_*other.getDenominator();
+
+    int temp_up;
+    int temp_down;
+    if(__builtin_sub_overflow(this->up_*other.getDenominator(),other.getNumerator()* this->down_,&temp_up)){
+        throw overflow_error("overflow error");
+
+    }
+
+    if(__builtin_mul_overflow(this->down_,other.getDenominator(),&temp_down)){
+        throw overflow_error("overflow error");
+
+    }
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
+
 }
 Fraction Fraction::operator-(float other) const {
     Fraction fother(other);
@@ -105,8 +127,18 @@ Fraction operator-(float fother, const Fraction & other) {
 //----------------------------------------------------------------------------------------------------------------------
 
 Fraction Fraction::operator*(const Fraction &other) const {
-    int temp_up = this->up_*other.getNumerator();
-    int temp_down =  this->down_*other.getDenominator();
+    int temp_up;
+    int temp_down;
+    if(__builtin_mul_overflow(this->up_,other.getNumerator(),&temp_up)){
+        throw overflow_error("overflow error");
+
+    }
+    if(__builtin_mul_overflow(this->down_,other.getDenominator(),&temp_down)){
+        throw overflow_error("overflow error");
+
+    }
+
+
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;
@@ -127,8 +159,16 @@ Fraction Fraction::operator/(const Fraction &other) const {
     if (other.getNumerator() == 0) {
         throw runtime_error("Division by zero!!");
     }
-    int temp_up = this->up_*other.getDenominator();
-    int temp_down = this->down_*other.up_;
+    int temp_up;
+    int temp_down;
+    if(__builtin_mul_overflow(this->up_,other.getDenominator(),&temp_up)){
+        throw overflow_error("overflow error");
+
+    }
+    if(__builtin_mul_overflow(this->down_,other.up_,&temp_down)){
+        throw overflow_error("overflow error");
+
+    }
     Fraction temp(temp_up,temp_down);
     temp.reduce();
     return temp;

@@ -733,8 +733,8 @@ TEST_CASE("Fraction with largest possible numerator and/or denominator and overf
     CHECK_THROWS_AS(f1 * f4, std::overflow_error);
     CHECK_THROWS_AS(f1 / f4, std::overflow_error);
 
-   CHECK_THROWS_AS(f2 * f4, std::overflow_error);
-   CHECK_THROWS_AS(f2 / f4, std::overflow_error); //
+    CHECK_THROWS_AS(f2 * f4, std::overflow_error);
+    CHECK_THROWS_AS(f2 / f4, std::overflow_error); //
 
     CHECK_NOTHROW(f3 * f4);
     CHECK_NOTHROW(f4 / f3);
@@ -749,6 +749,6 @@ TEST_CASE("Fraction with largest possible numerator and/or denominator and overf
     CHECK_THROWS_AS(f1 - f6, std::overflow_error);
     CHECK_THROWS_AS(f5 - f7, std::overflow_error);
 
-	CHECK_NOTHROW(f5 + Fraction{1, 1});
+    CHECK_NOTHROW(f5 + Fraction{1, 1});
     CHECK_NOTHROW(f7 - Fraction{1, 1});
 }
